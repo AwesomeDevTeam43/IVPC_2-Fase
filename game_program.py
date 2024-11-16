@@ -2,8 +2,8 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
-import game_opencv
-from game_opencv import cv_update
+#import game_opencv
+#from game_opencv import cv_update
 
 #
 pygame.init()
