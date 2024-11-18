@@ -9,6 +9,7 @@ use_cam = True
 model_path = "yolov8n.pt"  # Use um modelo YOLO pré-treinado, ex: yolov8n.pt
 target_label = "cell phone"  # Nome do objeto que queres detetar (ajusta conforme o modelo)
 
+
 # Inicializar captura de vídeo
 cap = cv2.VideoCapture(0 if use_cam else 'video.mp4')
 

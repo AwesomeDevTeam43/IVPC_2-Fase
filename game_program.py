@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
+import game_detectObject
+from game_detectObject import center_y
 from game_detectObject import *
 
 #import game_opencv
@@ -44,16 +46,15 @@ font = pygame.font.SysFont("calibri", 40)
 # Main game loop
 
 while True:
-    cv_update()
     # Handle events
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
 
-    if game_opencv.green_y_coords:
-        bar2_y = game_opencv.green_y_coords  # Use the first detected red position
-    if game_opencv.blue_y_coords:
-        bar1_y = game_opencv.blue_y_coords
+    if game_detectObject.center_y:
+        bar2_y = game_detectObject.center_y  # Use the first detected red position
+   # if game_opencv.blue_y_coords:
+     #   bar1_y = game_opencv.blue_y_coords
 
     # Render the current scores
     score1 = font.render(str(bar1_score), True, (255, 255, 255))
