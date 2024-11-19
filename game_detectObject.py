@@ -4,11 +4,16 @@ from ultralytics import YOLO
 # Configuração
 model_path = "yolov8s.pt"  # Modelo YOLO pré-treinado
 target_labels = ["cell phone", "bottle"]  # Objetos que queremos detetar
-cap = cv2.VideoCapture(0)  # Abrir a câmera
+
+use_cam = True
+
+# Abrir a câmera
+if use_cam:
+    cap = cv2.VideoCapture(0)
+else:
+    print("hello world")
 
 # Verificar se a câmera abriu corretamente
-if not cap.isOpened():
-    raise Exception("Erro ao abrir a câmera!")
 
 # Carregar o modelo YOLO
 model = YOLO(model_path)
@@ -26,13 +31,17 @@ def get_center_y(bbox):
 
 # Função `update` para deteção
 def update():
-    ret, frame = cap.read()  # Ler um frame da câmera
-    if not ret:
-        print("Erro ao capturar frame!")
-        return None, None
+    if not cap.isOpened():
+        cap.open(0)
+    _,image = cap.read()
 
+    if use_cam:
+        image = image[:, ::-1, :]
+
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # Realizar a deteção
-    results = model(frame)
+    results = model(image_rgb, verbose=False)
+
     y_centers = {label: None for label in target_labels}  # Inicializar dicionário para as coordenadas y
 
     # Processar os resultados
@@ -51,13 +60,13 @@ def update():
                     y_centers[label] = center_y  # Atualizar o dicionário com a coordenada `y`
 
                     # Desenhar no frame (opcional)
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    cv2.circle(frame, (int((x1 + x2) / 2), center_y), 5, (0, 0, 255), -1)
-                    cv2.putText(frame, f"{label} (y={center_y})", (x1, y1 - 10),
+                    cv2.rectangle(image_rgb, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                    cv2.circle(image_rgb, (int((x1 + x2) / 2), center_y), 5, (0, 0, 255), -1)
+                    cv2.putText(image_rgb, f"{label} (y={center_y})", (x1, y1 - 10),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
     # Exibir o frame (opcional)
-    cv2.imshow("Detecao de Objetos", frame)
+    cv2.imshow("Detecao de Objetos", image_rgb)
 
     # Retorna as coordenadas `y` dos objetos
     return y_centers[target_labels[0]], y_centers[target_labels[1]]
