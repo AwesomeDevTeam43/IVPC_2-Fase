@@ -46,10 +46,11 @@ def update_game():
             return False
 
     # Atualizar paddle azul (Player 2) com detecção
-    center_y = game_detectObject.update()
-    if center_y:
-        bar2_y = center_y - 25  # Ajustar ao centro do paddle
-
+    center_blue, center_green = game_detectObject.update()
+    if center_green:
+        bar2_y = center_green - 25  # Ajustar ao centro do paddle
+    if center_blue:
+        bar1_y = center_blue - 25
     # Restringir movimento dos paddles ao limite da tela
     bar1_y = max(10, min(430, bar1_y))
     bar2_y = max(10, min(430, bar2_y))
