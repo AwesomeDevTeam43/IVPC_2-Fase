@@ -3,7 +3,7 @@
   <component name="Black">
     <option name="sdkName" value="IVC2425" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="IVC2425" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="IVPC_1-Fase" project-jdk-type="Python SDK" />
   <component name="PyPackaging">
     <option name="earlyReleasesAsUpgrades" value="true" />
   </component>
