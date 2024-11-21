@@ -2,7 +2,9 @@ import cv2
 from ultralytics import YOLO
 import time
 
+
 model_path = "yolov8s.pt"
+# Objetos selecionados
 target_labels = ["cell phone", "bottle"]
 
 use_cam = True
@@ -15,7 +17,7 @@ else:
 
 model = YOLO(model_path)
 
-# Definir o tamanho mínimo e máximo para o filtro de bounding boxes
+# Definir o tamanho mínimo e máximo para o filtro de area das bounding boxes
 min_area = 1000
 max_area = 100000
 
@@ -26,13 +28,13 @@ def get_center_y(bbox):
     return int((y1 + y2) / 2)
 
 
-# Variáveis para calcular FPS
+# Variáveis para calcular os FPS
 fps = 0
 frame_counter = 0
 start_time = time.time()
 
 
-# Função `update` para deteção
+# Função `update` para a deteção de objetos
 def update():
     global fps, frame_counter, start_time
 
@@ -68,7 +70,7 @@ def update():
                     center_y = get_center_y((x1, y1, x2, y2))
                     y_centers[label] = center_y
 
-                    # Desenhar no frame (opcional)
+                    # Desenhar no frame
                     cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
                     cv2.circle(image, (int((x1 + x2) / 2), center_y), 5, (0, 0, 255), -1)
                     cv2.putText(image, f"{label} (y={center_y})", (x1, y1 - 10),
@@ -84,7 +86,7 @@ def update():
     return y_centers[target_labels[0]], y_centers[target_labels[1]]
 
 
-# Liberar recursos
+# libertar recursos
 def release_resources():
     cap.release()
     cv2.destroyAllWindows()
