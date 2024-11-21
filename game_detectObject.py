@@ -40,10 +40,10 @@ def update():
         cap.open(0)
     _, image = cap.read()
 
-    # Incrementar contador de frames
+    # Contador de frames
     frame_counter += 1
     elapsed_time = time.time() - start_time
-    if elapsed_time >= 1:  # Atualiza o FPS a cada segundo
+    if elapsed_time >= 1:
         fps = frame_counter
         frame_counter = 0
         start_time = time.time()
@@ -64,9 +64,9 @@ def update():
             if label in target_labels:
                 # Calcular a área do bounding box
                 area = (x2 - x1) * (y2 - y1)
-                if min_area <= area <= max_area:  # Aplicar o filtro de tamanho
-                    center_y = get_center_y((x1, y1, x2, y2))  # Calcular o centro vertical
-                    y_centers[label] = center_y  # Atualizar o dicionário com a coordenada `y`
+                if min_area <= area <= max_area:
+                    center_y = get_center_y((x1, y1, x2, y2))
+                    y_centers[label] = center_y
 
                     # Desenhar no frame (opcional)
                     cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
@@ -90,7 +90,7 @@ def release_resources():
     cv2.destroyAllWindows()
 
 
-# Loop principal (opcional para teste)
+# Loop principal
 if __name__ == "__main__":
     try:
         while True:
